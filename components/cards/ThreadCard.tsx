@@ -22,9 +22,11 @@ interface Props {
         image:string
     } | null;
     createdAt:string,
-    comments:{
+    comments:[{
+        author:{
         image:string;
-    }[]
+        }
+    }]
     isComment? : boolean;
 }
 
@@ -100,9 +102,21 @@ const ThreadCard = ({
             {!isComment && community&& (
                     <Link href={`/communities/${community.id}`} className="flex items-center">
                         <p className="text-subtle-medium text-gray-1"> - {community.name} Community</p>
-                        <Image src={community.image} alt="community profile picture" width={14}height={14} className="ml-1 rounded-full object-cover"></Image>
+                        <Image src={community.image} alt="community profile picture" width={28}height={28} className="ml-1 rounded-full object-cover"></Image>
                     </Link>
                 )}
+                <div className="flex items-center">{comments?.map((comment, index) => (
+              <Image
+                key={index}
+                src={comment.author.image}
+                alt={`user_${index}`}
+                width={28}
+                height={28}
+                className={`${
+                  index !== 0 && "-ml-2"
+                } rounded-full object-cover`}
+              />
+            ))}</div>
                 </div>
         </article>
     )
