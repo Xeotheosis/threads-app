@@ -58,11 +58,11 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
                 } rounded-full object-cover`}
               />
             ))}
-            {members.length > 3 ? (
+            {members.length > 3 && (
               <p className='ml-1 text-subtle-medium text-gray-1'>
                 {members.length}+ Users
               </p>
-            ) : <p>Not enough users</p>}
+            )}
           </div>
         )}
       </div>

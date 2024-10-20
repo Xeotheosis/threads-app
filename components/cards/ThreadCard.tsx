@@ -1,6 +1,8 @@
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteThread from "../forms/DeleteThread";
+import { threadId } from "worker_threads";
 
 
 interface Props {
@@ -85,15 +87,23 @@ const ThreadCard = ({
 )}
                     </div>
                     </div>
+                    <DeleteThread threadId ={id}
+  currentUserId={currentUserId}
+  authorId={author.id}
+  parentId={parentId}
+  isComment={isComment}/>
                 </div>
-             
+                
             </div>
+            <div className="flex items-center gap-4 mt-5">
+            <p className="text-subtle-medium text-gray-1">{formatDateString(createdAt)}</p>
             {!isComment && community&& (
-                    <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
-                        <p className="text-subtle-medium text-gray-1">{formatDateString(createdAt)} - {community.name} Community</p>
+                    <Link href={`/communities/${community.id}`} className="flex items-center">
+                        <p className="text-subtle-medium text-gray-1"> - {community.name} Community</p>
                         <Image src={community.image} alt="community profile picture" width={14}height={14} className="ml-1 rounded-full object-cover"></Image>
                     </Link>
                 )}
+                </div>
         </article>
     )
 

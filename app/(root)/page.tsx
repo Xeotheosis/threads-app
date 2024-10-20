@@ -1,6 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-
+import { redirect } from "next/navigation";  // Correct usage
 import ThreadCard from "@/components/cards/ThreadCard";
 import Pagination from "@/components/shared/Pagination";
 
@@ -13,11 +12,17 @@ async function Home({
   searchParams: { [key: string]: string | undefined };
 }) {
   const user = await currentUser();
-  if (!user) return null;
+  if (!user) return redirect("/sign-in");  // Redirect if no user is signed in
 
   const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  
+  // Redirect early if the user is not onboarded
+  if (!userInfo?.onboarded) {
+    redirect("/sign-in");
+    return null;  // Stop further processing
+  }
 
+  // Fetch posts only if the user is onboarded
   const result = await fetchPosts(
     searchParams.page ? +searchParams.page : 1,
     30
